@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" 
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+<head>
+  <title>progress.js</title>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
+  <script type="text/javascript" src="http://bzmx.net/fancy2/jquery.fancybox.js"></script>
+  <link rel="stylesheet" type="text/css" href="http://bzmx.net/fancy2/jquery.fancybox.css" media="screen" />
+  <script language="JavaScript" src="http://j.maxmind.com/app/geoip.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('.various').fancybox();
+        $('body').css('text-align', 'center');
+		$('body').css('color', '#111111');
+		$('small').css('color', '#555555');
+		$('small').css('padding-top', '30px');
+		$('body').css('font-family','Helvetica');
+		$("#city").html(geoip_city());
+    });
+  </script>
+</head>
+<body>
+  <h1>progress.js</h1>
+  <br /><br />
+  <p>Towards an effort into making the internet into a progressive activist force. <br /><br />Simple, embeddable open source tools for progressive webmasters.</p>
+  <br /><br />
+  <div id="page">
+	<a class="various" href="#inline1" title="progress.js">Show the thing!</a>
+    <div style="display: none;">
+
+      <div id="inline1">
+        <h1>We need your help to <b>Stop DOPA!</b></h1>
+        <br />
+        <p>Since you live in <span id="city"></span>, your Senator's phone number is: 555-555-5555.</p>
+        <p>You can <a href="#">call them online here</a> or <a href="#">fax them online here!</a></p>
+        <br />
+        <p><small>Are you a webmaster? You can embed this on your own site!</small></p>
+      </div>
+    </div>
+   
+
+  </div>
+</body>
+</html>
+
