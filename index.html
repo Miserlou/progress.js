@@ -7,6 +7,9 @@
   <script type="text/javascript" src="http://bzmx.net/fancy2/jquery.fancybox.js"></script>
   <link rel="stylesheet" type="text/css" href="http://bzmx.net/fancy2/jquery.fancybox.css" media="screen" />
   <script language="JavaScript" src="http://j.maxmind.com/app/geoip.js"></script>
+  <link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.10/themes/ui-darkness/jquery-ui.css"/>
+  <script type="text/javascript" src="http://s.phono.com/addons/callme/79a53b7/jquery.callme.js"></script>
+  <script src="http://s.phono.com/releases/0.3/jquery.phono.js"></script>
 
   <script type="text/javascript">
     $(document).ready(function() {
@@ -17,7 +20,52 @@
 		$('small').css('padding-top', '30px');
 		$('body').css('font-family','Helvetica');
 		$("#city").html(geoip_city());
+
+		$.getJSON('http://services.sunlightlabs.com/api/legislators.allForZip.json?apikey=d6c6b54106364cd7a0bdc321831ee9f5&zip=02155&jsonp=?', function(data){
+			var i = 0;
+			console.log(data);
+			var legi;
+			for(leg in data.response.legislators){
+				legi = data.response.legislators[leg].legislator;
+				if(legi != undefined){	
+					var phone = legi.phone;
+					$('#reps').append(legi.title + " " + legi.firstname + " " + legi.lastname + " (" + legi.party + ")<br /> ");
+					$('#reps').append('<div id=' + phone + '></div>');
+					try{
+					$(phone).append(
+							   $("<div/>")
+							    .css("width","210px")
+							    .callme({
+							      apiKey: "b09336bb769ea162c33cf2312a9c606e",
+							      numberToDial: phone,
+							      buttonTextReady: phone,
+							      slideOpen:false,
+							      dialPad: false
+							    }));
+					} catch(e){ alert(e); }
+				}
+			i++;
+			}
+			
+		});
+		
     });
+  </script>
+  <script type="text/javascript">
+
+	 var phono = $.phono({
+	        apiKey: "b09336bb769ea162c33cf2312a9c606e",
+	        onReady: function() {
+	        }
+	      });
+  function call(number) {
+  	try{
+    	$.phone.dial(number);
+    }
+   catch (e) {
+    	console.log(e);
+    }
+  }
   </script>
 </head>
 <body>
@@ -32,14 +80,12 @@
       <div id="inline1">
         <h1>We need your help to <b>Stop DOPA!</b></h1>
         <br />
-        <p>Since you live in <span id="city"></span>, your Senator's phone number is: 555-555-5555.</p>
-        <p>You can <a href="#">call them online here</a> or <a href="#">fax them online here!</a></p>
+        <p>Since you live in <span id="city"></span>, these are your representatives:</p>
+        <p><div id="reps"></div>
         <br />
         <p><small>Are you a webmaster? You can embed this on your own site!</small></p>
       </div>
     </div>
-   
-
   </div>
 </body>
 </html>
